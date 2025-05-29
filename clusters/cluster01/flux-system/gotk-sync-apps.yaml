@@ -10,7 +10,7 @@ spec:
   ref:
     branch: main
   secretRef:
-    name: flux-system
+    name: deploy-apps
   url: ssh://git@github.com/Snehashis-sci/sops-test-main.git
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -28,4 +28,4 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: app
