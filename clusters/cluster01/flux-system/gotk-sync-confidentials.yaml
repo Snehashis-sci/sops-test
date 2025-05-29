@@ -1,0 +1,31 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: my-secrets
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  secretRef:
+    name: my-secrets
+  timeout: 60s
+  url: ssh://git@github.com/Snehashis-sci/sops-test-main
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: my-secrets
+  namespace: flux-system
+spec:
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
+  force: false
+  interval: 10m0s
+  path: ./clusters/cluster02
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: my-secrets
